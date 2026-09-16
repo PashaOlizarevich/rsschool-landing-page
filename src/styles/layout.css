@@ -1,0 +1,22 @@
+body {
+  width: 100%;
+  padding-inline: var(--page-gutter);
+  padding-block-end: var(--page-gutter);
+  overflow-x: hidden;
+}
+
+.header,
+main,
+.footer {
+  width: min(100%, var(--content-max-width));
+  margin-inline: auto;
+}
+
+main {
+  display: grid;
+  gap: var(--section-gap);
+}
+
+.footer {
+  margin-block-start: var(--section-gap);
+}
