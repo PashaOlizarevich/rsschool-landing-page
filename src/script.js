@@ -81,7 +81,7 @@
     description.className = "product-card__description";
     price.className = "product-card__price";
 
-    image.src = `public/assets/menu/coffee/coffee-${index + 1}.jpg`;
+    image.src = `public/assets/menu/${product.category}/${product.category}-${index + 1}.jpg`;
     image.alt = `${product.name} from the Coffee House menu`;
     image.width = 340;
     image.height = 340;
@@ -101,6 +101,9 @@
 
   async function initializeCatalog() {
     const menuList = document.querySelector("#menu-list");
+    const menuPanel = document.querySelector("#menu-panel");
+    const tabs = [...document.querySelectorAll(".menu-tab[data-category]")];
+    const loadMore = document.querySelector("[data-load-more]");
 
     if (!menuList) {
       return;
@@ -114,12 +117,80 @@
       }
 
       const products = await response.json();
-      const coffeeProducts = products
-        .filter((product) => product.category === "coffee")
-        .slice(0, 8);
-      const cards = coffeeProducts.map(createProductCard);
+      const compactLayout = window.matchMedia("(max-width: 768px)");
+      let activeCategory = "coffee";
+      let expanded = false;
 
-      menuList.replaceChildren(...cards);
+      function updateVisibleCards() {
+        const cards = [...menuList.children];
+
+        cards.forEach((card, index) => {
+          card.hidden = compactLayout.matches && !expanded && index >= 4;
+        });
+
+        if (loadMore) {
+          loadMore.hidden = !compactLayout.matches || expanded || cards.length <= 4;
+        }
+      }
+
+      function selectCategory(category) {
+        activeCategory = category;
+        expanded = false;
+
+        tabs.forEach((tab) => {
+          const selected = tab.dataset.category === activeCategory;
+
+          tab.classList.toggle("menu-tab--active", selected);
+          tab.setAttribute("aria-selected", String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+        });
+
+        menuPanel?.setAttribute("aria-labelledby", `category-${activeCategory}`);
+        menuList.replaceChildren(
+          ...products.filter((product) => product.category === activeCategory).map(createProductCard),
+        );
+        updateVisibleCards();
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => selectCategory(tab.dataset.category));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex;
+
+          switch (event.key) {
+            case "ArrowRight":
+              nextIndex = (index + 1) % tabs.length;
+              break;
+            case "ArrowLeft":
+              nextIndex = (index - 1 + tabs.length) % tabs.length;
+              break;
+            case "Home":
+              nextIndex = 0;
+              break;
+            case "End":
+              nextIndex = tabs.length - 1;
+              break;
+            default:
+              return;
+          }
+
+          event.preventDefault();
+          selectCategory(tabs[nextIndex].dataset.category);
+          tabs[nextIndex].focus();
+        });
+      });
+
+      loadMore?.addEventListener("click", () => {
+        expanded = true;
+        updateVisibleCards();
+      });
+
+      compactLayout.addEventListener("change", () => {
+        expanded = false;
+        updateVisibleCards();
+      });
+
+      selectCategory(activeCategory);
     } catch (error) {
       console.error("Unable to load the Coffee House catalog.", error);
     }
