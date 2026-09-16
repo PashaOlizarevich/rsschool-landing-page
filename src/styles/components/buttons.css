@@ -20,6 +20,7 @@
 }
 
 .hero__link {
+  border: 0;
   color: var(--color-text-primary);
   background-color: var(--color-bg-page);
 }

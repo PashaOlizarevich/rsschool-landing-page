@@ -70,10 +70,15 @@
 }
 
 .header__actions {
+  /* Keep the theme switch before the catalog link. */
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-5);
+}
+
+.header__actions .theme-toggle {
+  order: -1;
 }
 
 .mobile-menu,
@@ -222,8 +227,6 @@
   }
 
   .theme-toggle {
-    min-width: 60px;
-    padding-inline: var(--space-2);
-    font-size: 0.875rem;
+    flex-shrink: 0;
   }
 }

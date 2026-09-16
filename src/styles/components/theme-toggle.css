@@ -1,11 +1,11 @@
 .theme-toggle {
   display: inline-flex;
-  min-width: 72px;
-  min-height: 44px;
+  width: 72px;
+  min-height: 36px;
   align-items: center;
-  justify-content: center;
-  padding-inline: var(--space-4);
-  border: 1px solid var(--color-border-strong);
+  justify-content: space-between;
+  padding: 2px;
+  border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-pill);
   color: var(--color-text-primary);
   background-color: transparent;
@@ -15,14 +15,28 @@
   transition: color var(--transition-fast), background-color var(--transition-fast), opacity var(--transition-fast);
 }
 
-.theme-toggle[aria-pressed="true"] {
+.theme-toggle__option {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.theme-toggle__option svg {
+  width: 20px;
+  height: 20px;
+}
+
+.theme-toggle[aria-pressed="false"] .theme-toggle__option--sun,
+.theme-toggle[aria-pressed="true"] .theme-toggle__option--moon {
   color: var(--color-text-on-dark);
-  background-color: var(--color-bg-strong);
+  background-color: var(--color-text-accent);
 }
 
 @media (hover: hover) {
   .theme-toggle:hover {
-    color: var(--color-text-on-dark);
-    background-color: var(--color-bg-strong);
+    border-color: var(--color-border-strong);
   }
 }
