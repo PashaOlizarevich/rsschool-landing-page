@@ -1,0 +1,17 @@
+# Local browser profiles
+qa-edge-*/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated files and local caches
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+Thumbs.db

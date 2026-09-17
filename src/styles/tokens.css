@@ -1,0 +1,70 @@
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-text-primary: #403f3d;
+  --color-text-on-dark: #e1d4c9;
+  --color-text-accent: #b0907a;
+  --color-bg-page: #e1d4c9;
+  --color-bg-strong: #665f55;
+  --color-border-strong: #665f55;
+  --color-border-soft: #c1b6ad;
+  --color-backdrop: rgb(64 63 61 / 80%);
+
+  --font-family-primary: "Inter", Arial, sans-serif;
+  --font-size-heading-1: 4.5rem;
+  --font-size-heading-2: 3.75rem;
+  --font-size-heading-3: 1.5rem;
+  --font-size-body: 1rem;
+  --font-size-caption: 0.625rem;
+  --line-height-heading-1: 1.05;
+  --line-height-heading-2: 1.25;
+  --line-height-heading-3: 1.25;
+  --line-height-body: 1.5;
+  --line-height-caption: 1.4;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-10: 2.5rem;
+  --space-15: 3.75rem;
+  --space-25: 6.25rem;
+
+  --radius-card: 1.25rem;
+  --radius-section: 2.5rem;
+  --radius-pill: 6.25rem;
+
+  --transition-fast: 180ms ease;
+  --transition-medium: 320ms ease;
+
+  --content-max-width: 85rem;
+  --page-gutter: 2.5rem;
+  --section-gap: 6.25rem;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-text-primary: #e1d4c9;
+  --color-text-on-dark: #f5eee8;
+  --color-text-accent: #c8a98e;
+  --color-bg-page: #242321;
+  --color-bg-strong: #403f3d;
+  --color-border-strong: #c1b6ad;
+  --color-border-soft: #665f55;
+  --color-backdrop: rgb(20 19 18 / 85%);
+}
+
+@media (max-width: 600px) {
+  :root {
+    --font-size-heading-1: 2.625rem;
+    --font-size-heading-2: 2.625rem;
+    --line-height-heading-1: 1.15;
+    --line-height-heading-2: 1.15;
+    --page-gutter: 1rem;
+  }
+}

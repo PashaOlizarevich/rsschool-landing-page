@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#e1d4c9" />
+    <link rel="icon" href="src/assets/icons/favicon.svg" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="Explore the Coffee House menu of coffee, tea, and desserts."
+    />
+    <title>Menu | Coffee House</title>
+    <link rel="stylesheet" href="src/styles/fonts.css" />
+    <link rel="stylesheet" href="src/styles/reset.css" />
+    <link rel="stylesheet" href="src/styles/tokens.css" />
+    <link rel="stylesheet" href="src/styles/base.css" />
+    <link rel="stylesheet" href="src/styles/layout.css" />
+    <link rel="stylesheet" href="src/styles/components/header.css" />
+    <link rel="stylesheet" href="src/styles/components/footer.css" />
+    <link rel="stylesheet" href="src/styles/components/buttons.css" />
+    <link rel="stylesheet" href="src/styles/components/cards.css" />
+    <link rel="stylesheet" href="src/styles/components/modal.css" />
+    <link rel="stylesheet" href="src/styles/components/theme-toggle.css" />
+    <link rel="stylesheet" href="src/styles/pages/menu.css" />
+    <link rel="stylesheet" href="src/styles/utilities.css" />
+    <script src="src/script.js"></script>
+  </head>
+  <body>
+
+    <header class="header">
+      <a class="logo" href="index.html" aria-label="Coffee House home">
+        <svg class="logo__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#logo"></use></svg>
+      </a>
+
+      <nav class="header__navigation" aria-label="Main navigation">
+        <ul class="navigation-list">
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="index.html#favorites">Favorite coffee</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="index.html#about">About</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="index.html#mobile-app">Mobile app</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="#contacts">Contact us</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <a class="menu-link" href="menu.html" aria-current="page">Menu<svg class="menu-link__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#cup"></use></svg></a>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          <span class="theme-toggle__option theme-toggle__option--sun" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="theme-toggle__option theme-toggle__option--moon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z" fill="currentColor"/></svg></span>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-menu__navigation" aria-label="Mobile navigation">
+          <ul class="mobile-menu__list">
+            <li>
+              <a class="mobile-menu__link" href="index.html#favorites">Favorite coffee</a>
+            </li>
+            <li><a class="mobile-menu__link" href="index.html#about">About</a></li>
+            <li>
+              <a class="mobile-menu__link" href="index.html#mobile-app">Mobile app</a>
+            </li>
+            <li><a class="mobile-menu__link" href="#contacts">Contact us</a></li>
+          </ul>
+        </nav>
+        <a class="mobile-menu__menu-link" href="menu.html" aria-current="page">Menu<svg class="mobile-menu__menu-icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#cup"></use></svg></a>
+      </div>
+
+      <button
+        class="burger-button"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="burger-button__line" aria-hidden="true"></span>
+        <span class="burger-button__line" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <main class="menu-page" id="main-content">
+      <section class="menu" aria-labelledby="menu-title">
+        <h1 class="menu__title" id="menu-title">
+          Behind each of our cups hides an <em>amazing surprise</em>
+        </h1>
+
+        <div class="menu-tabs" role="tablist" aria-label="Menu categories">
+          <button
+            class="menu-tab menu-tab--active"
+            id="category-coffee"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="menu-panel"
+            data-category="coffee"
+          >
+            <span class="menu-tab__icon" aria-hidden="true"><svg class="icon"><use href="src/assets/icons/icons.svg#coffee"></use></svg></span>
+            <span class="menu-tab__label">Coffee</span>
+          </button>
+          <button
+            class="menu-tab"
+            id="category-tea"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="menu-panel"
+            data-category="tea"
+            tabindex="-1"
+          >
+            <span class="menu-tab__icon" aria-hidden="true"><svg class="icon"><use href="src/assets/icons/icons.svg#tea"></use></svg></span>
+            <span class="menu-tab__label">Tea</span>
+          </button>
+          <button
+            class="menu-tab"
+            id="category-dessert"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="menu-panel"
+            data-category="dessert"
+            tabindex="-1"
+          >
+            <span class="menu-tab__icon" aria-hidden="true"><svg class="icon"><use href="src/assets/icons/icons.svg#dessert"></use></svg></span>
+            <span class="menu-tab__label">Dessert</span>
+          </button>
+        </div>
+
+        <div
+          class="menu__panel"
+          id="menu-panel"
+          role="tabpanel"
+          aria-labelledby="category-coffee"
+        >
+          <ul class="menu-list" id="menu-list" aria-live="polite"></ul>
+        </div>
+
+        <button
+          class="menu__load-more"
+          type="button"
+          aria-controls="menu-list"
+          data-load-more
+        >
+          <svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#refresh"></use></svg>
+          <span class="visually-hidden">Show more products</span>
+        </button>
+      </section>
+    </main>
+
+    <dialog
+      class="product-modal"
+      id="product-modal"
+      aria-labelledby="product-modal-title"
+      aria-describedby="product-modal-description"
+    >
+      <div class="product-modal__layout">
+        <div class="product-modal__media" data-modal-media aria-hidden="true"></div>
+
+        <form class="product-modal__content" method="dialog">
+          <header class="product-modal__header">
+            <h2 class="product-modal__title" id="product-modal-title" data-modal-title>
+              Product name
+            </h2>
+            <p
+              class="product-modal__description"
+              id="product-modal-description"
+              data-modal-description
+            >
+              Product description
+            </p>
+          </header>
+
+          <fieldset class="product-modal__options" data-modal-sizes>
+            <legend class="product-modal__legend">Size</legend>
+            <div class="product-modal__option-list"></div>
+          </fieldset>
+
+          <fieldset class="product-modal__options" data-modal-additives>
+            <legend class="product-modal__legend">Additives</legend>
+            <div class="product-modal__option-list"></div>
+          </fieldset>
+
+          <div class="product-modal__total">
+            <span class="product-modal__total-label">Total:</span>
+            <output class="product-modal__price" data-modal-price>$0.00</output>
+          </div>
+
+          <p class="product-modal__notice">
+            <svg class="product-modal__notice-icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#info"></use></svg>
+            <span>
+              The cost is not final. Download our mobile app to see the final price and place your
+              order.
+            </span>
+          </p>
+
+          <button class="product-modal__close" type="submit" value="close" data-modal-close>
+            Close
+          </button>
+        </form>
+      </div>
+    </dialog>
+
+    <footer class="footer" id="contacts">
+      <section class="footer__socials" aria-labelledby="socials-title">
+        <h2 class="footer__title" id="socials-title">
+          Sip, Savor, Smile. It’s <em>coffee time!</em>
+        </h2>
+        <ul class="social-list" aria-label="Coffee House social media">
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Twitter"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#twitter"></use></svg></a>
+          </li>
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Instagram"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#instagram"></use></svg></a>
+          </li>
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Facebook"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#facebook"></use></svg></a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer__contacts" aria-labelledby="contacts-title">
+        <h2 class="footer__subtitle" id="contacts-title">Contact us</h2>
+        <address class="contacts-list">
+          <a
+            class="contacts-list__link"
+            href="https://www.google.com/maps/search/?api=1&amp;query=8558+Green+Road+Los+Angeles"
+            target="_blank"
+            rel="noopener noreferrer"
+          ><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#pin"></use></svg>8558 Green Rd., LA</a>
+          <a class="contacts-list__link" href="tel:+16035550123"><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#phone"></use></svg>+1 (603) 555-0123</a>
+          <p class="contacts-list__item"><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#clock"></use></svg>Mon-Sat: 9:00 AM – 23:00 PM</p>
+        </address>
+      </section>
+    </footer>
+  </body>
+</html>

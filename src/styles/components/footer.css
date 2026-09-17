@@ -1,0 +1,115 @@
+.footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-25);
+  padding: var(--space-25);
+  border-radius: var(--radius-section);
+  color: var(--color-text-on-dark);
+  background-color: var(--color-bg-strong);
+}
+
+.footer__socials,
+.footer__contacts {
+  min-width: 0;
+}
+
+.footer__title {
+  max-width: 33.125rem;
+}
+
+.footer__title em {
+  color: var(--color-text-accent);
+}
+
+.social-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block-start: var(--space-10);
+}
+
+.social-list__link {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 50%;
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.social-list__link .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.footer__subtitle {
+  font-size: var(--font-size-heading-3);
+  line-height: var(--line-height-heading-3);
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-block-start: var(--space-10);
+  font-weight: var(--font-weight-semibold);
+}
+
+.contacts-list__link,
+.contacts-list__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 24px;
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.contacts-list__icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.contacts-list__link::after {
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  background-color: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .social-list__link:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-page);
+  }
+
+  .contacts-list__link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: var(--space-25);
+    padding: var(--space-25) var(--space-15);
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    gap: var(--space-10);
+    padding: var(--space-15) var(--space-4);
+  }
+}

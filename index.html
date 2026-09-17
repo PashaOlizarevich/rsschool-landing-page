@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#e1d4c9" />
+    <link rel="icon" href="src/assets/icons/favicon.svg" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="Coffee House is a perfect and cozy place to enjoy your favorite coffee."
+    />
+    <title>Coffee House</title>
+    <link rel="stylesheet" href="src/styles/fonts.css" />
+    <link rel="stylesheet" href="src/styles/reset.css" />
+    <link rel="stylesheet" href="src/styles/tokens.css" />
+    <link rel="stylesheet" href="src/styles/base.css" />
+    <link rel="stylesheet" href="src/styles/layout.css" />
+    <link rel="stylesheet" href="src/styles/components/header.css" />
+    <link rel="stylesheet" href="src/styles/components/footer.css" />
+    <link rel="stylesheet" href="src/styles/components/buttons.css" />
+    <link rel="stylesheet" href="src/styles/components/cards.css" />
+    <link rel="stylesheet" href="src/styles/components/modal.css" />
+    <link rel="stylesheet" href="src/styles/components/theme-toggle.css" />
+    <link rel="stylesheet" href="src/styles/pages/home.css" />
+    <link rel="stylesheet" href="src/styles/utilities.css" />
+    <script src="src/script.js"></script>
+  </head>
+  <body>
+
+    <header class="header">
+      <a class="logo" href="index.html" aria-label="Coffee House home">
+        <svg class="logo__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#logo"></use></svg>
+      </a>
+
+      <nav class="header__navigation" aria-label="Main navigation">
+        <ul class="navigation-list">
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="#favorites">Favorite coffee</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="#about">About</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="#mobile-app">Mobile app</a>
+          </li>
+          <li class="navigation-list__item">
+            <a class="navigation-list__link" href="#contacts">Contact us</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <a class="menu-link" href="menu.html">Menu<svg class="menu-link__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#cup"></use></svg></a>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+        >
+          <span class="theme-toggle__option theme-toggle__option--sun" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span class="theme-toggle__option theme-toggle__option--moon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.5 13.2A8.5 8.5 0 0 1 10.8 3.5a8.5 8.5 0 1 0 9.7 9.7Z" fill="currentColor"/></svg></span>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-menu__navigation" aria-label="Mobile navigation">
+          <ul class="mobile-menu__list">
+            <li><a class="mobile-menu__link" href="#favorites">Favorite coffee</a></li>
+            <li><a class="mobile-menu__link" href="#about">About</a></li>
+            <li><a class="mobile-menu__link" href="#mobile-app">Mobile app</a></li>
+            <li><a class="mobile-menu__link" href="#contacts">Contact us</a></li>
+          </ul>
+        </nav>
+        <a class="mobile-menu__menu-link" href="menu.html">Menu<svg class="mobile-menu__menu-icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#cup"></use></svg></a>
+      </div>
+
+      <button
+        class="burger-button"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="burger-button__line" aria-hidden="true"></span>
+        <span class="burger-button__line" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero__image"
+          src="src/assets/images/hero/img-hero.jpg"
+          alt=""
+          width="1360"
+          height="644"
+          fetchpriority="high"
+        />
+        <div class="hero__content">
+          <h1 class="hero__title" id="hero-title">
+            <em>Enjoy</em> premium coffee at our charming cafe
+          </h1>
+          <p class="hero__description">
+            With its inviting atmosphere and delicious coffee options, the Coffee House
+            Resource is a popular destination for coffee lovers and those seeking a warm and
+            inviting space to enjoy their favorite beverage.
+          </p>
+          <a class="hero__link" href="menu.html">Menu</a>
+        </div>
+      </section>
+
+      <section class="favorites" id="favorites" aria-labelledby="favorites-title">
+        <h2 class="favorites__title" id="favorites-title">
+          Choose your <em>favorite</em> coffee
+        </h2>
+
+        <div class="slider" role="group" aria-roledescription="carousel" aria-label="Favorite coffee">
+          <button class="slider__control slider__control--previous" type="button">
+            <svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#arrow-left"></use></svg>
+            <span class="visually-hidden">Previous coffee</span>
+          </button>
+
+          <div class="slider__viewport" aria-live="polite">
+            <ul class="slider__list">
+              <li class="slider__item slider__item--active">
+                <article class="favorite-card">
+                  <img
+                    class="favorite-card__image"
+                    src="src/assets/images/favorites/coffee-slider-1.png"
+                    alt="S’mores Frappuccino topped with whipped cream and marshmallows"
+                    width="480"
+                    height="480"
+                    loading="lazy"
+                  />
+                  <h3 class="favorite-card__title">S’mores Frappuccino</h3>
+                  <p class="favorite-card__description">
+                    This new drink takes an espresso and mixes it with brown sugar and cinnamon
+                    before being topped with oat milk.
+                  </p>
+                  <p class="favorite-card__price">$5.50</p>
+                </article>
+              </li>
+              <li class="slider__item">
+                <article class="favorite-card">
+                  <img
+                    class="favorite-card__image"
+                    src="src/assets/images/favorites/coffee-slider-2.png"
+                    alt="Caramel Macchiato decorated with caramel sauce"
+                    width="480"
+                    height="480"
+                    loading="lazy"
+                  />
+                  <h3 class="favorite-card__title">Caramel Macchiato</h3>
+                  <p class="favorite-card__description">
+                    Fragrant and unique classic espresso with rich caramel-peanut syrup, with
+                    cream under whipped thick foam.
+                  </p>
+                  <p class="favorite-card__price">$5.00</p>
+                </article>
+              </li>
+              <li class="slider__item">
+                <article class="favorite-card">
+                  <img
+                    class="favorite-card__image"
+                    src="src/assets/images/favorites/coffee-slider-3.png"
+                    alt="Iced coffee served with milk and ice"
+                    width="480"
+                    height="480"
+                    loading="lazy"
+                  />
+                  <h3 class="favorite-card__title">Ice coffee</h3>
+                  <p class="favorite-card__description">
+                    A popular summer drink that tones and invigorates. Prepared from coffee, milk
+                    and ice.
+                  </p>
+                  <p class="favorite-card__price">$4.50</p>
+                </article>
+              </li>
+            </ul>
+          </div>
+
+          <button class="slider__control slider__control--next" type="button">
+            <svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#arrow-right"></use></svg>
+            <span class="visually-hidden">Next coffee</span>
+          </button>
+
+          <div class="slider__pagination" role="group" aria-label="Choose a coffee">
+            <button
+              class="slider__indicator slider__indicator--active"
+              type="button"
+              aria-label="Show S’mores Frappuccino"
+              aria-current="true"
+            ></button>
+            <button
+              class="slider__indicator"
+              type="button"
+              aria-label="Show Caramel Macchiato"
+            ></button>
+            <button
+              class="slider__indicator"
+              type="button"
+              aria-label="Show Ice coffee"
+            ></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <h2 class="about__title" id="about-title">
+          Resource is <em>the perfect and cozy place</em> where you can enjoy a variety of hot
+          beverages, relax, catch up with friends, or get some work done.
+        </h2>
+        <ul class="about__gallery">
+          <li class="about__item about__item--large">
+            <img
+              class="about__image"
+              src="src/assets/images/about/about-1.jpg"
+              alt="A woman enjoying coffee in the Coffee House"
+              width="660"
+              height="590"
+              loading="lazy"
+            />
+          </li>
+          <li class="about__item about__item--small">
+            <img
+              class="about__image"
+              src="src/assets/images/about/about-2.jpg"
+              alt="A cup of coffee on a wooden table"
+              width="660"
+              height="430"
+              loading="lazy"
+            />
+          </li>
+          <li class="about__item about__item--small">
+            <img
+              class="about__image"
+              src="src/assets/images/about/about-3.jpg"
+              alt="A guest relaxing at the Coffee House"
+              width="660"
+              height="430"
+              loading="lazy"
+            />
+          </li>
+          <li class="about__item about__item--large">
+            <img
+              class="about__image"
+              src="src/assets/images/about/about-4.jpg"
+              alt="Friends sharing coffee at the Coffee House"
+              width="660"
+              height="590"
+              loading="lazy"
+            />
+          </li>
+        </ul>
+      </section>
+
+      <section class="mobile-app" id="mobile-app" aria-labelledby="mobile-app-title">
+        <div class="mobile-app__content">
+          <h2 class="mobile-app__title" id="mobile-app-title">
+            <em>Download</em> our apps to start ordering
+          </h2>
+          <p class="mobile-app__description">
+            Download the Resource app today and experience the comfort of ordering your favorite
+            coffee from wherever you are
+          </p>
+          <ul class="store-links" aria-label="Download the Coffee House app">
+            <li class="store-links__item">
+              <a
+                class="store-link store-link--apple"
+                href="https://www.apple.com/app-store/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download the Coffee House app from the App Store"
+              >
+                <svg class="store-link__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#apple"></use></svg>
+                <span class="store-link__text">
+                <span class="store-link__caption">Available on the</span>
+                <span class="store-link__name">App Store</span>
+                </span>
+              </a>
+            </li>
+            <li class="store-links__item">
+              <a
+                class="store-link store-link--google"
+                href="https://play.google.com/store"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download the Coffee House app from Google Play"
+              >
+                <svg class="store-link__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#google-play"></use></svg>
+                <span class="store-link__text">
+                <span class="store-link__caption">Available on</span>
+                <span class="store-link__name">Google Play</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <img
+          class="mobile-app__image"
+          src="src/assets/images/mobile-app/mobile-screens.png"
+          alt="Coffee House mobile application shown on two smartphones"
+          width="630"
+          height="630"
+          loading="lazy"
+        />
+      </section>
+    </main>
+
+    <footer class="footer" id="contacts">
+      <section class="footer__socials" aria-labelledby="socials-title">
+        <h2 class="footer__title" id="socials-title">
+          Sip, Savor, Smile. It’s <em>coffee time!</em>
+        </h2>
+        <ul class="social-list" aria-label="Coffee House social media">
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Twitter"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#twitter"></use></svg></a>
+          </li>
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Instagram"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#instagram"></use></svg></a>
+          </li>
+          <li class="social-list__item">
+            <a
+              class="social-list__link"
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Coffee House on Facebook"
+            ><svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#facebook"></use></svg></a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer__contacts" aria-labelledby="contacts-title">
+        <h2 class="footer__subtitle" id="contacts-title">Contact us</h2>
+        <address class="contacts-list">
+          <a
+            class="contacts-list__link"
+            href="https://www.google.com/maps/search/?api=1&amp;query=8558+Green+Road+Los+Angeles"
+            target="_blank"
+            rel="noopener noreferrer"
+          ><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#pin"></use></svg>8558 Green Rd., LA</a>
+          <a class="contacts-list__link" href="tel:+16035550123"><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#phone"></use></svg>+1 (603) 555-0123</a>
+          <p class="contacts-list__item"><svg class="contacts-list__icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#clock"></use></svg>Mon-Sat: 9:00 AM – 23:00 PM</p>
+        </address>
+      </section>
+    </footer>
+  </body>
+</html>
