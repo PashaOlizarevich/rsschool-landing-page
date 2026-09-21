@@ -89,14 +89,23 @@
 
     <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
-        <img
-          class="hero__image"
-          src="src/assets/images/hero/img-hero.jpg"
-          alt=""
-          width="1360"
-          height="644"
-          fetchpriority="high"
-        />
+        <video
+          class="hero__media"
+          poster="src/assets/images/hero/img-hero.jpg"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source
+            src="src/assets/video/720_24fps.webm"
+            type="video/webm"
+            media="(max-width: 600px)"
+          />
+          <source src="src/assets/video/1080_24fps.webm" type="video/webm" />
+        </video>
         <div class="hero__content">
           <h1 class="hero__title" id="hero-title">
             <em>Enjoy</em> premium coffee at our charming cafe
