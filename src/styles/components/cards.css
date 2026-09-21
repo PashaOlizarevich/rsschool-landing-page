@@ -1,0 +1,105 @@
+.favorite-card {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.favorite-card__image {
+  width: min(100%, 480px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  transition: transform var(--transition-medium);
+}
+
+.favorite-card__title {
+  margin-block-start: var(--space-5);
+}
+
+.favorite-card__description {
+  max-width: 480px;
+  margin-block-start: var(--space-4);
+}
+
+.favorite-card__price {
+  margin-block-start: var(--space-4);
+  font-size: var(--font-size-heading-3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-heading-3);
+}
+
+.product-card {
+  display: flex;
+  min-height: 506px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background-color: transparent;
+  text-align: left;
+  transition: border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.product-card__media {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+}
+
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-medium);
+}
+
+@media (hover: hover) {
+  .favorite-card:hover .favorite-card__image {
+    transform: scale(1.02);
+  }
+
+  .product-card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.1);
+  }
+}
+
+.favorite-card:active .favorite-card__image,
+.product-card:active .product-card__image {
+  transform: scale(0.99);
+}
+
+.product-card__content {
+  display: flex;
+  min-height: 166px;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+
+.product-card__title {
+  font-size: var(--font-size-heading-3);
+  line-height: var(--line-height-heading-3);
+}
+
+.product-card__description {
+  margin-block-start: var(--space-3);
+}
+
+.product-card__price {
+  margin-block-start: auto;
+  padding-block-start: var(--space-3);
+  font-size: var(--font-size-heading-3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-heading-3);
+}
+
+@media (max-width: 600px) {
+  .product-card {
+    width: min(100%, 310px);
+    justify-self: center;
+  }
+}
