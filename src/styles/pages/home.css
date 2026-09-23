@@ -66,6 +66,9 @@
 
 .slider__list {
   display: flex;
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--transition-medium);
+  will-change: transform;
 }
 
 .slider__item {

@@ -118,6 +118,64 @@
     setMenuOpen(false);
   }
 
+  function initializeFavoritesSlider() {
+    const slider = document.querySelector(".slider");
+    const list = slider?.querySelector(".slider__list");
+    const viewport = slider?.querySelector(".slider__viewport");
+    const slides = [...(slider?.querySelectorAll(".slider__item") ?? [])];
+    const indicators = [...(slider?.querySelectorAll(".slider__indicator") ?? [])];
+    const previous = slider?.querySelector(".slider__control--previous");
+    const next = slider?.querySelector(".slider__control--next");
+
+    if (!slider || !list || !viewport || slides.length === 0) {
+      return;
+    }
+
+    let activeIndex = 0;
+
+    function showSlide(index) {
+      activeIndex = (index + slides.length) % slides.length;
+      list.style.transform = `translate3d(-${activeIndex * 100}%, 0, 0)`;
+
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activeIndex;
+
+        slide.classList.toggle("slider__item--active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+        slide.setAttribute("aria-label", `${slideIndex + 1} of ${slides.length}`);
+      });
+
+      indicators.forEach((indicator, indicatorIndex) => {
+        const isActive = indicatorIndex === activeIndex;
+
+        indicator.classList.toggle("slider__indicator--active", isActive);
+
+        if (isActive) {
+          indicator.setAttribute("aria-current", "true");
+        } else {
+          indicator.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    previous?.addEventListener("click", () => showSlide(activeIndex - 1));
+    next?.addEventListener("click", () => showSlide(activeIndex + 1));
+
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener("click", () => showSlide(index));
+    });
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(() => showSlide(activeIndex));
+
+      resizeObserver.observe(viewport);
+    } else {
+      window.addEventListener("resize", () => showSlide(activeIndex));
+    }
+
+    showSlide(activeIndex);
+  }
+
   function createProductCard(product, index) {
     const item = document.createElement("li");
     const card = document.createElement("article");
@@ -254,6 +312,7 @@
   function initializePage() {
     initializeThemeToggle();
     initializeBurgerMenu();
+    initializeFavoritesSlider();
     initializeCatalog();
   }
 
