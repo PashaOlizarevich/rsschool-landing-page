@@ -9,15 +9,12 @@ const products = JSON.parse(
 
 test("calculates sizes and additives for every product", () => {
   for (const product of products) {
-    assert.equal(calculateProductPrice(product, "s"), Number(product.price));
-    assert.equal(
-      calculateProductPrice(product, "m", [0]),
-      Number(product.price) + Number(product.sizes.m["add-price"]) + 0.5,
-    );
-    assert.equal(
-      calculateProductPrice(product, "l", [0, 1, 2]),
-      Number(product.price) + Number(product.sizes.l["add-price"]) + 1.5,
-    );
+    for (const size of ["s", "m", "l"]) {
+      const base = Number(product.price) + Number(product.sizes[size]["add-price"]);
+      assert.equal(calculateProductPrice(product, size), base);
+      assert.equal(calculateProductPrice(product, size, [0]), base + Number(product.additives[0]["add-price"]));
+      assert.equal(calculateProductPrice(product, size, [0, 1, 2]), base + product.additives.reduce((sum, item) => sum + Number(item["add-price"]), 0));
+    }
   }
 });
 
