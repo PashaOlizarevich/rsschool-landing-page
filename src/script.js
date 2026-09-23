@@ -436,7 +436,7 @@
     return item;
   }
 
-  async function initializeCatalog() {
+  function initializeCatalog() {
     const menuList = document.querySelector("#menu-list");
     const menuPanel = document.querySelector("#menu-panel");
     const tabs = [...document.querySelectorAll(".menu-tab[data-category]")];
@@ -447,93 +447,152 @@
       return;
     }
 
-    try {
-      const response = await fetch("public/data/products.json");
+    const compactLayout = window.matchMedia("(max-width: 768px)");
+    let products = [];
+    let activeCategory = "coffee";
+    let expanded = false;
 
-      if (!response.ok) {
-        throw new Error(`Catalog request failed with status ${response.status}`);
-      }
-
-      const products = await response.json();
-      const compactLayout = window.matchMedia("(max-width: 768px)");
-      let activeCategory = "coffee";
-      let expanded = false;
-
-      function updateVisibleCards() {
-        const cards = [...menuList.children];
-
-        cards.forEach((card, index) => {
-          card.hidden = compactLayout.matches && !expanded && index >= 4;
-        });
-
-        if (loadMore) {
-          loadMore.hidden = !compactLayout.matches || expanded || cards.length <= 4;
-        }
-      }
-
-      function selectCategory(category) {
-        activeCategory = category;
-        expanded = false;
-
-        tabs.forEach((tab) => {
-          const selected = tab.dataset.category === activeCategory;
-
-          tab.classList.toggle("menu-tab--active", selected);
-          tab.setAttribute("aria-selected", String(selected));
-          tab.tabIndex = selected ? 0 : -1;
-        });
-
-        menuPanel?.setAttribute("aria-labelledby", `category-${activeCategory}`);
-        menuList.replaceChildren(
-          ...products
-            .filter((product) => product.category === activeCategory)
-            .map((product, index) => createProductCard(product, index, openModal)),
-        );
-        updateVisibleCards();
-      }
-
-      tabs.forEach((tab, index) => {
-        tab.addEventListener("click", () => selectCategory(tab.dataset.category));
-        tab.addEventListener("keydown", (event) => {
-          let nextIndex;
-
-          switch (event.key) {
-            case "ArrowRight":
-              nextIndex = (index + 1) % tabs.length;
-              break;
-            case "ArrowLeft":
-              nextIndex = (index - 1 + tabs.length) % tabs.length;
-              break;
-            case "Home":
-              nextIndex = 0;
-              break;
-            case "End":
-              nextIndex = tabs.length - 1;
-              break;
-            default:
-              return;
-          }
-
-          event.preventDefault();
-          selectCategory(tabs[nextIndex].dataset.category);
-          tabs[nextIndex].focus();
-        });
+    function setTabsDisabled(disabled) {
+      tabs.forEach((tab) => {
+        tab.disabled = disabled;
       });
-
-      loadMore?.addEventListener("click", () => {
-        expanded = true;
-        updateVisibleCards();
-      });
-
-      compactLayout.addEventListener("change", () => {
-        expanded = false;
-        updateVisibleCards();
-      });
-
-      selectCategory(activeCategory);
-    } catch (error) {
-      console.error("Unable to load the Coffee House catalog.", error);
     }
+
+    function renderStatus(message, { error = false, retry = false } = {}) {
+      const item = document.createElement("li");
+      const text = document.createElement("p");
+
+      item.className = error
+        ? "menu-list__status catalog-error"
+        : "menu-list__status catalog-loading";
+      text.textContent = message;
+      item.append(text);
+
+      if (error) {
+        item.setAttribute("role", "alert");
+      } else {
+        item.setAttribute("role", "status");
+      }
+
+      if (retry) {
+        const retryButton = document.createElement("button");
+
+        retryButton.className = "catalog-error__retry";
+        retryButton.type = "button";
+        retryButton.textContent = "Try again";
+        retryButton.addEventListener("click", loadProducts);
+        item.append(retryButton);
+      }
+
+      menuList.replaceChildren(item);
+    }
+
+    function updateVisibleCards() {
+      const cards = [...menuList.children];
+
+      cards.forEach((card, index) => {
+        card.hidden = compactLayout.matches && !expanded && index >= 4;
+      });
+
+      if (loadMore) {
+        loadMore.hidden = !compactLayout.matches || expanded || cards.length <= 4;
+      }
+    }
+
+    function selectCategory(category) {
+      activeCategory = category;
+      expanded = false;
+
+      tabs.forEach((tab) => {
+        const selected = tab.dataset.category === activeCategory;
+
+        tab.classList.toggle("menu-tab--active", selected);
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      menuPanel?.setAttribute("aria-labelledby", `category-${activeCategory}`);
+      menuList.replaceChildren(
+        ...products
+          .filter((product) => product.category === activeCategory)
+          .map((product, index) => createProductCard(product, index, openModal)),
+      );
+      updateVisibleCards();
+    }
+
+    async function loadProducts() {
+      menuList.setAttribute("aria-busy", "true");
+      setTabsDisabled(true);
+      loadMore?.setAttribute("hidden", "");
+      renderStatus("Loading menu…");
+
+      try {
+        const response = await fetch("public/data/products.json");
+
+        if (!response.ok) {
+          throw new Error(`Catalog request failed with status ${response.status}`);
+        }
+
+        products = await response.json();
+        activeCategory = "coffee";
+        expanded = false;
+        setTabsDisabled(false);
+        selectCategory(activeCategory);
+      } catch (error) {
+        products = [];
+        setTabsDisabled(true);
+        renderStatus(
+          "We couldn’t load the menu. Check your connection and try again.",
+          { error: true, retry: true },
+        );
+        console.error("Unable to load the Coffee House catalog.", error);
+      } finally {
+        menuList.setAttribute("aria-busy", "false");
+      }
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectCategory(tab.dataset.category));
+      tab.addEventListener("keydown", (event) => {
+        let nextIndex;
+
+        switch (event.key) {
+          case "ArrowRight":
+            nextIndex = (index + 1) % tabs.length;
+            break;
+          case "ArrowLeft":
+            nextIndex = (index - 1 + tabs.length) % tabs.length;
+            break;
+          case "Home":
+            nextIndex = 0;
+            break;
+          case "End":
+            nextIndex = tabs.length - 1;
+            break;
+          default:
+            return;
+        }
+
+        event.preventDefault();
+        selectCategory(tabs[nextIndex].dataset.category);
+        tabs[nextIndex].focus();
+      });
+    });
+
+    loadMore?.addEventListener("click", () => {
+      expanded = true;
+      updateVisibleCards();
+    });
+
+    compactLayout.addEventListener("change", () => {
+      expanded = false;
+
+      if (products.length > 0) {
+        updateVisibleCards();
+      }
+    });
+
+    loadProducts();
   }
 
   function initializePage() {

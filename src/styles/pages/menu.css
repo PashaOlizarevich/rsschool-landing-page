@@ -38,6 +38,37 @@
   justify-self: center;
 }
 
+.menu-list__status {
+  display: grid;
+  min-height: 240px;
+  grid-column: 1 / -1;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-5);
+  padding: var(--space-10);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+
+.catalog-error__retry {
+  min-height: 46px;
+  padding: 8px 24px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .catalog-error__retry:hover {
+    color: var(--color-text-on-dark);
+    background-color: var(--color-bg-strong);
+  }
+}
+
 .menu-list > li[hidden],
 .menu__load-more[hidden] {
   display: none;
