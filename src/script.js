@@ -182,11 +182,115 @@
     const title = modal?.querySelector("[data-modal-title]");
     const description = modal?.querySelector("[data-modal-description]");
     const price = modal?.querySelector("[data-modal-price]");
+    const sizeList = modal?.querySelector("[data-modal-sizes] .product-modal__option-list");
+    const additiveList = modal?.querySelector(
+      "[data-modal-additives] .product-modal__option-list",
+    );
     const closeButton = modal?.querySelector("[data-modal-close]");
     let trigger = null;
+    let currentProduct = null;
+    let selectedSize = "s";
+    let selectedAdditives = new Set();
 
-    if (!modal || !media || !title || !description || !price || !closeButton) {
+    if (
+      !modal ||
+      !media ||
+      !title ||
+      !description ||
+      !price ||
+      !sizeList ||
+      !additiveList ||
+      !closeButton
+    ) {
       return null;
+    }
+
+    function updatePrice() {
+      if (!currentProduct) {
+        price.textContent = "$0.00";
+        return;
+      }
+
+      const sizePrice = Number(currentProduct.sizes[selectedSize]["add-price"]);
+      const additivesPrice = [...selectedAdditives].reduce(
+        (total, index) => total + Number(currentProduct.additives[index]["add-price"]),
+        0,
+      );
+      const total = Number(currentProduct.price) + sizePrice + additivesPrice;
+
+      price.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function createOptionButton(indexLabel, text, ariaLabel, pressed) {
+      const button = document.createElement("button");
+      const index = document.createElement("span");
+      const label = document.createElement("span");
+
+      button.className = "product-option";
+      button.type = "button";
+      button.setAttribute("aria-label", ariaLabel);
+      button.setAttribute("aria-pressed", String(pressed));
+      index.className = "product-option__index";
+      index.setAttribute("aria-hidden", "true");
+      index.textContent = indexLabel;
+      label.className = "product-option__label";
+      label.textContent = text;
+      button.append(index, label);
+
+      return button;
+    }
+
+    function renderProductOptions(product) {
+      selectedSize = "s";
+      selectedAdditives = new Set();
+
+      const sizeButtons = Object.entries(product.sizes).map(([key, option]) => {
+        const button = createOptionButton(
+          key.toUpperCase(),
+          option.size,
+          `Size ${key.toUpperCase()}: ${option.size}`,
+          key === selectedSize,
+        );
+
+        button.addEventListener("click", () => {
+          selectedSize = key;
+          [...sizeList.children].forEach((sizeButton) => {
+            sizeButton.setAttribute("aria-pressed", String(sizeButton === button));
+          });
+          updatePrice();
+        });
+
+        return button;
+      });
+
+      const additiveButtons = product.additives.map((additive, additiveIndex) => {
+        const button = createOptionButton(
+          String(additiveIndex + 1),
+          additive.name,
+          `Add ${additive.name}`,
+          false,
+        );
+
+        button.addEventListener("click", () => {
+          if (selectedAdditives.has(additiveIndex)) {
+            selectedAdditives.delete(additiveIndex);
+          } else {
+            selectedAdditives.add(additiveIndex);
+          }
+
+          button.setAttribute(
+            "aria-pressed",
+            String(selectedAdditives.has(additiveIndex)),
+          );
+          updatePrice();
+        });
+
+        return button;
+      });
+
+      sizeList.replaceChildren(...sizeButtons);
+      additiveList.replaceChildren(...additiveButtons);
+      updatePrice();
     }
 
     function unlockPage() {
@@ -251,7 +355,8 @@
       media.replaceChildren(image);
       title.textContent = product.name;
       description.textContent = product.description;
-      price.textContent = `$${Number(product.price).toFixed(2)}`;
+      currentProduct = product;
+      renderProductOptions(product);
       trigger = source;
 
       root.classList.add("scroll-locked");
