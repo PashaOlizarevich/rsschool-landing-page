@@ -15,6 +15,14 @@
 
   const root = document.documentElement;
 
+  function isVisibleFocusable(element) {
+    return (
+      !element.hidden &&
+      !element.closest("[hidden], [inert]") &&
+      element.getClientRects().length > 0
+    );
+  }
+
   function readStoredTheme() {
     try {
       const storedTheme = localStorage.getItem(STORAGE_KEY);
@@ -75,6 +83,9 @@
     const compactLayout = window.matchMedia("(max-width: 768px)");
     const menuLinks = [...menu.querySelectorAll("a")];
     const desktopFocusTarget = header.querySelector(".header__navigation a, .menu-link");
+    const pageRegions = [document.querySelector("main"), document.querySelector("footer")].filter(
+      Boolean,
+    );
     let isOpen = false;
 
     function setMenuOpen(open, { restoreFocus = false } = {}) {
@@ -86,6 +97,9 @@
       toggle.setAttribute("aria-label", nextOpen ? "Close navigation menu" : "Open navigation menu");
       menu.setAttribute("aria-hidden", String(!nextOpen));
       menu.inert = !nextOpen;
+      pageRegions.forEach((region) => {
+        region.inert = nextOpen;
+      });
       root.classList.toggle("scroll-locked", nextOpen);
       document.body.classList.toggle("scroll-locked", nextOpen);
 
@@ -108,6 +122,26 @@
       if (event.key === "Escape" && isOpen) {
         event.preventDefault();
         setMenuOpen(false, { restoreFocus: true });
+      }
+    });
+
+    header.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab" || !isOpen) {
+        return;
+      }
+
+      const focusable = [
+        ...header.querySelectorAll('a[href], button:not(:disabled), [tabindex]:not([tabindex="-1"])'),
+      ].filter(isVisibleFocusable);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     });
 
@@ -140,6 +174,9 @@
       slides.forEach((slide, slideIndex) => {
         const isActive = slideIndex === activeIndex;
 
+        slide.id ||= `favorite-slide-${slideIndex + 1}`;
+        slide.setAttribute("role", "group");
+        slide.setAttribute("aria-roledescription", "slide");
         slide.classList.toggle("slider__item--active", isActive);
         slide.setAttribute("aria-hidden", String(!isActive));
         slide.setAttribute("aria-label", `${slideIndex + 1} of ${slides.length}`);
@@ -148,6 +185,7 @@
       indicators.forEach((indicator, indicatorIndex) => {
         const isActive = indicatorIndex === activeIndex;
 
+        indicator.setAttribute("aria-controls", slides[indicatorIndex]?.id ?? "");
         indicator.classList.toggle("slider__indicator--active", isActive);
 
         if (isActive) {
@@ -323,7 +361,7 @@
         ...modal.querySelectorAll(
           'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [href], [tabindex]:not([tabindex="-1"])',
         ),
-      ].filter((element) => !element.hidden);
+      ].filter(isVisibleFocusable);
 
       if (focusable.length === 0) {
         event.preventDefault();

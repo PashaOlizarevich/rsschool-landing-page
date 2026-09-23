@@ -63,7 +63,7 @@
         </button>
       </div>
 
-      <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
         <nav class="mobile-menu__navigation" aria-label="Mobile navigation">
           <ul class="mobile-menu__list">
             <li>
@@ -194,7 +194,12 @@
 
           <div class="product-modal__total">
             <span class="product-modal__total-label">Total:</span>
-            <output class="product-modal__price" data-modal-price>$0.00</output>
+            <output
+              class="product-modal__price"
+              data-modal-price
+              aria-live="polite"
+              aria-atomic="true"
+            >$0.00</output>
           </div>
 
           <p class="product-modal__notice">

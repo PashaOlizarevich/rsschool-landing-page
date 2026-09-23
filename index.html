@@ -63,7 +63,7 @@
         </button>
       </div>
 
-      <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu" id="mobile-menu" aria-hidden="true" inert>
         <nav class="mobile-menu__navigation" aria-label="Mobile navigation">
           <ul class="mobile-menu__list">
             <li><a class="mobile-menu__link" href="#favorites">Favorite coffee</a></li>
@@ -125,14 +125,30 @@
         </h2>
 
         <div class="slider" role="group" aria-roledescription="carousel" aria-label="Favorite coffee">
-          <button class="slider__control slider__control--previous" type="button">
+          <button
+            class="slider__control slider__control--previous"
+            type="button"
+            aria-controls="favorites-slider-viewport"
+          >
             <svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#arrow-left"></use></svg>
             <span class="visually-hidden">Previous coffee</span>
           </button>
 
-          <div class="slider__viewport" aria-live="polite">
+          <div
+            class="slider__viewport"
+            id="favorites-slider-viewport"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <ul class="slider__list">
-              <li class="slider__item slider__item--active">
+              <li
+                class="slider__item slider__item--active"
+                id="favorite-slide-1"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="1 of 3"
+                aria-hidden="false"
+              >
                 <article class="favorite-card">
                   <img
                     class="favorite-card__image"
@@ -150,7 +166,14 @@
                   <p class="favorite-card__price">$5.50</p>
                 </article>
               </li>
-              <li class="slider__item">
+              <li
+                class="slider__item"
+                id="favorite-slide-2"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="2 of 3"
+                aria-hidden="true"
+              >
                 <article class="favorite-card">
                   <img
                     class="favorite-card__image"
@@ -168,7 +191,14 @@
                   <p class="favorite-card__price">$5.00</p>
                 </article>
               </li>
-              <li class="slider__item">
+              <li
+                class="slider__item"
+                id="favorite-slide-3"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="3 of 3"
+                aria-hidden="true"
+              >
                 <article class="favorite-card">
                   <img
                     class="favorite-card__image"
@@ -189,7 +219,11 @@
             </ul>
           </div>
 
-          <button class="slider__control slider__control--next" type="button">
+          <button
+            class="slider__control slider__control--next"
+            type="button"
+            aria-controls="favorites-slider-viewport"
+          >
             <svg class="icon" aria-hidden="true"><use href="src/assets/icons/icons.svg#arrow-right"></use></svg>
             <span class="visually-hidden">Next coffee</span>
           </button>
@@ -199,17 +233,20 @@
               class="slider__indicator slider__indicator--active"
               type="button"
               aria-label="Show S’mores Frappuccino"
+              aria-controls="favorite-slide-1"
               aria-current="true"
             ></button>
             <button
               class="slider__indicator"
               type="button"
               aria-label="Show Caramel Macchiato"
+              aria-controls="favorite-slide-2"
             ></button>
             <button
               class="slider__indicator"
               type="button"
               aria-label="Show Ice coffee"
+              aria-controls="favorite-slide-3"
             ></button>
           </div>
         </div>
