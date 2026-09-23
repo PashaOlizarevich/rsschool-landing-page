@@ -115,3 +115,24 @@ test("active slide survives resize at all control widths", async ({ page }) => {
     await expectSettledTransform(page, 1);
   }
 });
+
+test("mobile controls stay visible and switch slides in both directions", async ({ page }) => {
+  await page.setViewportSize({ width: 380, height: 800 });
+
+  const previous = page.locator(".slider__control--previous");
+  const next = page.locator(".slider__control--next");
+
+  await expect(previous).toBeVisible();
+  await expect(next).toBeVisible();
+  await next.click();
+  await expectActiveSlide(page, 1);
+  await previous.click();
+  await expectActiveSlide(page, 0);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+      ),
+    )
+    .toBe(true);
+});

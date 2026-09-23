@@ -206,16 +206,22 @@
   }
 
   .slider {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 60px minmax(0, 1fr) 60px;
   }
 
-  .slider__control {
-    display: none;
-  }
-
-  .slider__viewport,
+  .slider__control--previous,
+  .slider__control--next,
   .slider__pagination {
-    grid-column: 1;
+    grid-row: 2;
+    margin-block-start: var(--space-10);
+  }
+
+  .slider__viewport {
+    grid-column: 1 / -1;
+  }
+
+  .slider__pagination {
+    grid-column: 2;
   }
 
   .about__gallery {
