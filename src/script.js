@@ -14,6 +14,7 @@
   };
 
   const root = document.documentElement;
+  const { calculateProductPrice } = globalThis.CoffeeHousePrice;
 
   function isVisibleFocusable(element) {
     return (
@@ -249,12 +250,9 @@
         return;
       }
 
-      const sizePrice = Number(currentProduct.sizes[selectedSize]["add-price"]);
-      const additivesPrice = [...selectedAdditives].reduce(
-        (total, index) => total + Number(currentProduct.additives[index]["add-price"]),
-        0,
-      );
-      const total = Number(currentProduct.price) + sizePrice + additivesPrice;
+      const total = calculateProductPrice(currentProduct, selectedSize, [
+        ...selectedAdditives,
+      ]);
 
       price.textContent = `$${total.toFixed(2)}`;
     }
