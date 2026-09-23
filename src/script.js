@@ -176,17 +176,135 @@
     showSlide(activeIndex);
   }
 
-  function createProductCard(product, index) {
+  function initializeProductModal() {
+    const modal = document.querySelector("#product-modal");
+    const media = modal?.querySelector("[data-modal-media]");
+    const title = modal?.querySelector("[data-modal-title]");
+    const description = modal?.querySelector("[data-modal-description]");
+    const price = modal?.querySelector("[data-modal-price]");
+    const closeButton = modal?.querySelector("[data-modal-close]");
+    let trigger = null;
+
+    if (!modal || !media || !title || !description || !price || !closeButton) {
+      return null;
+    }
+
+    function unlockPage() {
+      root.classList.remove("scroll-locked");
+      document.body.classList.remove("scroll-locked");
+    }
+
+    function closeModal() {
+      if (modal.open) {
+        modal.close();
+      }
+    }
+
+    function restorePage() {
+      unlockPage();
+
+      if (trigger?.isConnected) {
+        trigger.focus();
+      }
+
+      trigger = null;
+    }
+
+    function trapFocus(event) {
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusable = [
+        ...modal.querySelectorAll(
+          'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [href], [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter((element) => !element.hidden);
+
+      if (focusable.length === 0) {
+        event.preventDefault();
+        modal.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable.at(-1);
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function openModal(product, index, source) {
+      const image = document.createElement("img");
+
+      image.className = "product-modal__image";
+      image.src = `public/assets/menu/${product.category}/${product.category}-${index + 1}.jpg`;
+      image.alt = `${product.name} from the Coffee House menu`;
+      image.width = 310;
+      image.height = 310;
+
+      media.replaceChildren(image);
+      title.textContent = product.name;
+      description.textContent = product.description;
+      price.textContent = `$${Number(product.price).toFixed(2)}`;
+      trigger = source;
+
+      root.classList.add("scroll-locked");
+      document.body.classList.add("scroll-locked");
+      modal.showModal();
+      closeButton.focus();
+    }
+
+    closeButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeModal();
+    });
+
+    modal.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeModal();
+    });
+
+    modal.addEventListener("close", restorePage);
+    modal.addEventListener("keydown", trapFocus);
+    modal.addEventListener("click", (event) => {
+      if (event.target !== modal) {
+        return;
+      }
+
+      const bounds = modal.getBoundingClientRect();
+      const clickedBackdrop =
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom;
+
+      if (clickedBackdrop) {
+        closeModal();
+      }
+    });
+
+    return openModal;
+  }
+
+  function createProductCard(product, index, openModal) {
     const item = document.createElement("li");
-    const card = document.createElement("article");
-    const media = document.createElement("div");
+    const card = document.createElement("button");
+    const media = document.createElement("span");
     const image = document.createElement("img");
-    const content = document.createElement("div");
-    const title = document.createElement("h2");
-    const description = document.createElement("p");
-    const price = document.createElement("p");
+    const content = document.createElement("span");
+    const title = document.createElement("span");
+    const description = document.createElement("span");
+    const price = document.createElement("span");
 
     card.className = "product-card";
+    card.type = "button";
+    card.setAttribute("aria-label", `Open details for ${product.name}`);
     media.className = "product-card__media";
     image.className = "product-card__image";
     content.className = "product-card__content";
@@ -208,6 +326,7 @@
     content.append(title, description, price);
     card.append(media, content);
     item.append(card);
+    card.addEventListener("click", () => openModal?.(product, index, card));
 
     return item;
   }
@@ -217,6 +336,7 @@
     const menuPanel = document.querySelector("#menu-panel");
     const tabs = [...document.querySelectorAll(".menu-tab[data-category]")];
     const loadMore = document.querySelector("[data-load-more]");
+    const openModal = initializeProductModal();
 
     if (!menuList) {
       return;
@@ -260,7 +380,9 @@
 
         menuPanel?.setAttribute("aria-labelledby", `category-${activeCategory}`);
         menuList.replaceChildren(
-          ...products.filter((product) => product.category === activeCategory).map(createProductCard),
+          ...products
+            .filter((product) => product.category === activeCategory)
+            .map((product, index) => createProductCard(product, index, openModal)),
         );
         updateVisibleCards();
       }
