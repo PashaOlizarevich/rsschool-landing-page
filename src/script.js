@@ -63,6 +63,61 @@
     });
   }
 
+  function initializeBurgerMenu() {
+    const header = document.querySelector(".header");
+    const toggle = header?.querySelector(".burger-button");
+    const menu = header?.querySelector(".mobile-menu");
+
+    if (!header || !toggle || !menu) {
+      return;
+    }
+
+    const compactLayout = window.matchMedia("(max-width: 768px)");
+    const menuLinks = [...menu.querySelectorAll("a")];
+    const desktopFocusTarget = header.querySelector(".header__navigation a, .menu-link");
+    let isOpen = false;
+
+    function setMenuOpen(open, { restoreFocus = false } = {}) {
+      const nextOpen = open && compactLayout.matches;
+
+      isOpen = nextOpen;
+      header.dataset.menuOpen = String(nextOpen);
+      toggle.setAttribute("aria-expanded", String(nextOpen));
+      toggle.setAttribute("aria-label", nextOpen ? "Close navigation menu" : "Open navigation menu");
+      menu.setAttribute("aria-hidden", String(!nextOpen));
+      menu.inert = !nextOpen;
+      root.classList.toggle("scroll-locked", nextOpen);
+      document.body.classList.toggle("scroll-locked", nextOpen);
+
+      if (nextOpen) {
+        requestAnimationFrame(() => menuLinks[0]?.focus());
+      } else if (restoreFocus) {
+        (compactLayout.matches ? toggle : desktopFocusTarget)?.focus();
+      }
+    }
+
+    toggle.addEventListener("click", () => {
+      setMenuOpen(!isOpen, { restoreFocus: isOpen });
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => setMenuOpen(false, { restoreFocus: true }));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && isOpen) {
+        event.preventDefault();
+        setMenuOpen(false, { restoreFocus: true });
+      }
+    });
+
+    compactLayout.addEventListener("change", () => {
+      setMenuOpen(false, { restoreFocus: isOpen });
+    });
+
+    setMenuOpen(false);
+  }
+
   function createProductCard(product, index) {
     const item = document.createElement("li");
     const card = document.createElement("article");
@@ -198,6 +253,7 @@
 
   function initializePage() {
     initializeThemeToggle();
+    initializeBurgerMenu();
     initializeCatalog();
   }
 

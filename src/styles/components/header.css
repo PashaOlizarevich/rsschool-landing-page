@@ -175,6 +175,9 @@
     background-color: var(--color-bg-page);
     opacity: 0;
     pointer-events: none;
+    transition:
+      opacity var(--transition-medium),
+      visibility 0s var(--transition-medium);
   }
 
   .header--menu-open .mobile-menu,
@@ -184,6 +187,7 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .mobile-menu__list {
