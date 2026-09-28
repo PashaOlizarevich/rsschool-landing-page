@@ -29,17 +29,21 @@
 
 .product-card {
   display: flex;
+  width: 100%;
   min-height: 506px;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-card);
   background-color: transparent;
+  color: inherit;
+  cursor: pointer;
   text-align: left;
   transition: border-color var(--transition-fast), opacity var(--transition-fast);
 }
 
 .product-card__media {
+  display: block;
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
@@ -82,6 +86,7 @@
 
 .product-card__title {
   font-size: var(--font-size-heading-3);
+  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-heading-3);
 }
 
